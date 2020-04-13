@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Apple Leaf Disease Classification Web App</title>
+        <meta charset="utf-8">
+        <meta name="viewport"  content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script>
+         "use strict";
+         function submitForm(oFormElement) {
+             var xhr = new XMLHttpRequest();
+             xhr.onload = function() {
+                 var output = parseFloat(xhr.responseText);
+                 var resultElement = document.getElementById('output');
+                 if (output == healthy) {
+                     resultElement.className = 'bg-danger';
+                     resultElement.innerHTML = 'The Apple leaf is HEALTHY!';
+                 }
+                if (output == scab) {
+                     resultElement.className = 'bg-danger';
+                     resultElement.innerHTML = 'The Apple leaf affected with SCAB!';
+                 }
+
+                 if (output == rust) {
+                     resultElement.className = 'bg-danger';
+                     resultElement.innerHTML = 'The Apple leaf affected with RUST!';
+                 } else {
+                     resultElement.className = 'bg-success';
+                     resultElement.innerHTML = 'The Apple leaf affected with MULTIPLE_DISEASES!';
+                 }
+             }
+             xhr.open (oFormElement.method, oFormElement.action, true);
+             var img_url = document.getElementById('img_url');
+             xhr.send (img_url.value);
+             return false;
+         }
+        </script>
+
+    </head>
+    <body>
+
+        <div class="container">
+            <h1>The classification of the apple leaf into Healthy, Rust, Scab or Multiple_diseases</h1>
+            <p>Enter your image url below and click submit to find the apple leaf disease.</p>
+            <form method="POST"
+                  action="invoke URL : https://eezs416ebj.execute-api.ap-south-1.amazonaws.com/production"
+                  onsubmit="return submitForm(this);" >                     <!-- HERE IS WHERE YOU NEED TO ENTER THE API URL -->
+                <div class="form-group">
+                    <label for="img_url">IMAGE URL:</label>
+                    <textarea class="form-control"  rows="3" id="img_url">Please copy your image url here.</textarea>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <h1 class="bg-success" id="output"></h1>
+        </div>
+    </body>
+</html>
